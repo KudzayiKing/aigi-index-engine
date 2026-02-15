@@ -97,10 +97,24 @@ def merge_dataframes(registry, current, previous):
         if metric in current:
             curr_df = current[metric].copy()
             
+            # Ensure we only have model and value columns
+            if len(curr_df.columns) > 2:
+                print(f"  Warning: {metric} has {len(curr_df.columns)} columns, expected 2")
+            
             # Rename the value column to the metric name
             value_cols = [col for col in curr_df.columns if col != 'model']
             if len(value_cols) == 1:
                 curr_df = curr_df.rename(columns={value_cols[0]: metric})
+            elif len(value_cols) > 1:
+                # Take only the first value column
+                curr_df = curr_df[['model', value_cols[0]]].rename(columns={value_cols[0]: metric})
+            
+            # Ensure the value column contains only scalars (not dicts/lists)
+            if metric in curr_df.columns:
+                # Convert any non-scalar values to None
+                curr_df[metric] = curr_df[metric].apply(
+                    lambda x: x if isinstance(x, (int, float, type(None))) or pd.isna(x) else None
+                )
             
             df = df.merge(curr_df, left_on="name", right_on="model", how="left")
             
@@ -126,6 +140,15 @@ def merge_dataframes(registry, current, previous):
             value_cols = [col for col in prev_df.columns if col != 'model']
             if len(value_cols) == 1:
                 prev_df = prev_df.rename(columns={value_cols[0]: f"prev_{metric}"})
+            elif len(value_cols) > 1:
+                prev_df = prev_df[['model', value_cols[0]]].rename(columns={value_cols[0]: f"prev_{metric}"})
+            
+            # Ensure scalar values only
+            prev_col = f"prev_{metric}"
+            if prev_col in prev_df.columns:
+                prev_df[prev_col] = prev_df[prev_col].apply(
+                    lambda x: x if isinstance(x, (int, float, type(None))) or pd.isna(x) else None
+                )
             
             df = df.merge(prev_df, left_on="name", right_on="model", how="left")
             
