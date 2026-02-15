@@ -4,31 +4,183 @@
     "tier": "A",
     "arena_id": "gpt-4",
     "hf_repo": null,
-    "github_repo": "openai/gpt-4",
+    "github_repo": "kyegomez/GPT4",
     "paper_id": "arxiv:2303.08774"
+  },
+  {
+    "name": "gpt-4-turbo",
+    "tier": "A",
+    "arena_id": "gpt-4-turbo",
+    "hf_repo": null,
+    "github_repo": "kyegomez/GPT4",
+    "paper_id": null
+  },
+  {
+    "name": "gpt-3.5-turbo",
+    "tier": "B",
+    "arena_id": "gpt-3.5-turbo",
+    "hf_repo": null,
+    "github_repo": "kyegomez/GPT3",
+    "paper_id": null
   },
   {
     "name": "claude-3-opus",
     "tier": "A",
     "arena_id": "claude-3-opus",
     "hf_repo": null,
-    "github_repo": "anthropics/claude-3",
+    "github_repo": null,
+    "paper_id": null
+  },
+  {
+    "name": "claude-3-sonnet",
+    "tier": "B",
+    "arena_id": "claude-3-sonnet",
+    "hf_repo": null,
+    "github_repo": null,
+    "paper_id": null
+  },
+  {
+    "name": "claude-3-haiku",
+    "tier": "B",
+    "arena_id": "claude-3-haiku",
+    "hf_repo": null,
+    "github_repo": null,
     "paper_id": null
   },
   {
     "name": "llama-3-70b",
-    "tier": "B",
+    "tier": "A",
     "arena_id": "llama-3-70b",
     "hf_repo": "meta-llama/Meta-Llama-3-70B",
     "github_repo": "meta-llama/llama3",
     "paper_id": "arxiv:2407.21783"
   },
   {
-    "name": "mistral-large",
+    "name": "llama-3-8b",
     "tier": "B",
+    "arena_id": "llama-3-8b",
+    "hf_repo": "meta-llama/Meta-Llama-3-8B",
+    "github_repo": "meta-llama/llama3",
+    "paper_id": "arxiv:2407.21783"
+  },
+  {
+    "name": "llama-2-70b",
+    "tier": "C",
+    "arena_id": "llama-2-70b",
+    "hf_repo": "meta-llama/Llama-2-70b-hf",
+    "github_repo": "meta-llama/llama",
+    "paper_id": "arxiv:2307.09288"
+  },
+  {
+    "name": "mistral-7b",
+    "tier": "C",
+    "arena_id": "mistral-7b",
+    "hf_repo": "mistralai/Mistral-7B-Instruct-v0.3",
+    "github_repo": "mistralai/mistral-src",
+    "paper_id": "arxiv:2310.06825"
+  },
+  {
+    "name": "mixtral-8x7b",
+    "tier": "B",
+    "arena_id": "mixtral-8x7b",
+    "hf_repo": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    "github_repo": "mistralai/mistral-src",
+    "paper_id": "arxiv:2401.04088"
+  },
+  {
+    "name": "mistral-large",
+    "tier": "A",
     "arena_id": "mistral-large",
-    "hf_repo": "mistralai/Mistral-Large",
-    "github_repo": "mistralai/mistral-large",
+    "hf_repo": "mistralai/Mistral-Large-Instruct-2407",
+    "github_repo": "mistralai/mistral-inference",
+    "paper_id": null
+  },
+  {
+    "name": "codestral-22b",
+    "tier": "A",
+    "arena_id": "codestral-22b",
+    "hf_repo": "mistralai/Codestral-22B-v0.1",
+    "github_repo": "mistralai/codestral",
+    "paper_id": null
+  },
+  {
+    "name": "kimi-k2",
+    "tier": "A",
+    "arena_id": "kimi-k2",
+    "hf_repo": "moonshotai/Kimi-K2",
+    "github_repo": "MoonshotAI/Kimi-K2",
+    "paper_id": null
+  },
+  {
+    "name": "kimi-dev-72b",
+    "tier": "A",
+    "arena_id": "kimi-dev-72b",
+    "hf_repo": "moonshotai/Kimi-Dev-72B",
+    "github_repo": "MoonshotAI/Kimi-Dev",
+    "paper_id": null
+  },
+  {
+    "name": "kimi-k2-thinking",
+    "tier": "A",
+    "arena_id": "kimi-k2-thinking",
+    "hf_repo": null,
+    "github_repo": "kyegomez/Open-Kimi",
+    "paper_id": null
+  },
+  {
+    "name": "minimax-01",
+    "tier": "A",
+    "arena_id": "minimax-01",
+    "hf_repo": "MiniMaxAI/MiniMax-01",
+    "github_repo": "MiniMax-AI/MiniMax-01",
+    "paper_id": null
+  },
+  {
+    "name": "minimax-m1",
+    "tier": "B",
+    "arena_id": "minimax-m1",
+    "hf_repo": "MiniMaxAI/MiniMax-M1",
+    "github_repo": "MiniMax-AI/MiniMax-M1",
+    "paper_id": null
+  },
+  {
+    "name": "minimax-m2",
+    "tier": "B",
+    "arena_id": "minimax-m2",
+    "hf_repo": "MiniMaxAI/MiniMax-M2",
+    "github_repo": "MiniMax-AI/MiniMax-M2",
+    "paper_id": null
+  },
+  {
+    "name": "minimax-m2.1",
+    "tier": "A",
+    "arena_id": "minimax-m2.1",
+    "hf_repo": "MiniMaxAI/MiniMax-M2.1",
+    "github_repo": "MiniMax-AI/MiniMax-M2.1",
+    "paper_id": null
+  },
+  {
+    "name": "glm-4.5v",
+    "tier": "A",
+    "arena_id": "glm-4.5v",
+    "hf_repo": "zai-org/GLM-4.5V",
+    "github_repo": "zai-org/GLM-V",
+    "paper_id": null
+  },
+  {
+    "name": "glm-4.1v-9b",
+    "tier": "B",
+    "arena_id": "glm-4.1v-9b",
+    "hf_repo": "zai-org/GLM-4.1V-9B-Thinking",
+    "github_repo": "zai-org/GLM-V",
+    "paper_id": null
+  },
+  {
+    "name": "glm-4.5-air",
+    "tier": "B",
+    "arena_id": "glm-4.5-air",
+    "hf_repo": "cyankiwi/GLM-4.5-Air-AWQ-4bit",
+    "github_repo": null,
     "paper_id": null
   },
   {
@@ -36,7 +188,55 @@
     "tier": "A",
     "arena_id": "gemini-1.5-pro",
     "hf_repo": null,
-    "github_repo": null,
+    "github_repo": "SreejanPersonal/Gemini-1.5-Pro-Google-AI-Studio-Reverse-Engineered-API",
     "paper_id": "arxiv:2403.05530"
+  },
+  {
+    "name": "gemini-1.5-flash",
+    "tier": "B",
+    "arena_id": "gemini-1.5-flash",
+    "hf_repo": null,
+    "github_repo": "SreejanPersonal/Gemini-1.5-Pro-Google-AI-Studio-Reverse-Engineered-API",
+    "paper_id": "arxiv:2403.05530"
+  },
+  {
+    "name": "qwen-1.5-72b",
+    "tier": "B",
+    "arena_id": "qwen-1.5-72b",
+    "hf_repo": "Qwen/Qwen1.5-72B",
+    "github_repo": "QwenLM/Qwen1.5",
+    "paper_id": "arxiv:2309.16609"
+  },
+  {
+    "name": "qwen-2.5-72b",
+    "tier": "A",
+    "arena_id": "qwen-2.5-72b",
+    "hf_repo": "Qwen/Qwen2.5-72B-Instruct",
+    "github_repo": "QwenLM/Qwen2.5",
+    "paper_id": "arxiv:2405.10739"
+  },
+  {
+    "name": "deepseek-v3",
+    "tier": "A",
+    "arena_id": "deepseek-v3",
+    "hf_repo": "deepseek-ai/DeepSeek-V3",
+    "github_repo": "deepseek-ai/DeepSeek-V3",
+    "paper_id": null
+  },
+  {
+    "name": "deepseek-r1",
+    "tier": "A",
+    "arena_id": "deepseek-r1",
+    "hf_repo": "deepseek-ai/DeepSeek-R1",
+    "github_repo": "deepseek-ai/DeepSeek-R1",
+    "paper_id": null
+  },
+  {
+    "name": "yi-34b",
+    "tier": "B",
+    "arena_id": "yi-34b",
+    "hf_repo": "01-ai/Yi-34B",
+    "github_repo": "01-ai/Yi",
+    "paper_id": "arxiv:2403.04652"
   }
 ]

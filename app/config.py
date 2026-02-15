@@ -1,10 +1,22 @@
 import os
+from dotenv import load_dotenv
 
-# Epoch info (can be overridden by environment variables)
-EPOCH_ID = os.getenv("EPOCH_ID", "2026-04")               # e.g., "2026-04"
-SNAPSHOT_TIMESTAMP = os.getenv("SNAPSHOT_TIMESTAMP", None)  # ISO format, auto-generated if None
+# Load environment variables
+load_dotenv()
 
-# Weights for intelligence sub-scores (must sum to 1.0)
+# Epoch info
+EPOCH_ID = os.getenv("EPOCH_ID", "2026-04")
+SNAPSHOT_TIMESTAMP = os.getenv("SNAPSHOT_TIMESTAMP", None)
+
+# API Keys
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+SEMANTIC_SCHOLAR_KEY = os.getenv("SEMANTIC_SCHOLAR_KEY", "")
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN", "")
+
+# Rate limiting (1 request per second as specified)
+RATE_LIMIT = int(os.getenv("RATE_LIMIT", "1"))
+
+# Weights for intelligence sub-scores
 INTELLIGENCE_WEIGHTS = {
     "arena": 0.30,
     "mmlu": 0.20,
@@ -47,3 +59,4 @@ MODEL_SCORE_WEIGHTS = {
 # Paths
 RAW_DATA_ARCHIVE_DIR = "epochs/raw"
 SNAPSHOT_DIR = "epochs"
+MODELS_REGISTRY_PATH = "app/models_registry.json"

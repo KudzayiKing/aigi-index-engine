@@ -9,6 +9,13 @@ import sys
 import json
 import pandas as pd
 from datetime import datetime
+from app.data_sources import (
+    fetch_arena_scores,
+    fetch_hf_downloads,
+    fetch_github_stats,
+    fetch_citations,
+)
+from app.data_sources.benchmarks import fetch_all_benchmarks
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -37,33 +44,44 @@ def load_model_registry():
 def fetch_all_data():
     """
     Returns a dictionary with dataframes for current and previous metrics.
-    For v1, we use mock data. Replace with real API calls later.
+    Now uses real data sources!
     """
-    mock = get_mock_all_data()
-    # Current data
+    print("🌐 Fetching real data from APIs...")
+    
+    # Fetch real data
+    print("\n📊 Fetching LMArena scores...")
+    arena_df = fetch_arena_scores()
+    
+    print("\n📚 Fetching benchmark data (MMLU, GSM8K, HumanEval)...")
+    benchmarks_df = fetch_all_benchmarks()
+    
+    print("\n🤗 Fetching Hugging Face downloads...")
+    downloads_df = fetch_hf_downloads()
+    
+    print("\n🐙 Fetching GitHub stats...")
+    github_df = fetch_github_stats()
+    
+    print("\n📖 Fetching citation counts...")
+    citations_df = fetch_citations()
+    
     current = {
-        "arena": mock["arena"],
-        "mmlu": mock["mmlu"],
-        "gsm8k": mock["gsm8k"],
-        "humaneval": mock["humaneval"],
-        "multimodal": mock["multimodal"],
-        "robustness": mock["robustness"],
-        "downloads": mock["downloads"],
-        "github": mock["github"],
-        "citations": mock["citations"],
-        "release": mock["release"],
+        "arena": arena_df,
+        "benchmarks": benchmarks_df,
+        "downloads": downloads_df,
+        "github": github_df,
+        "citations": citations_df,
     }
-    # Previous data (for momentum)
+    
+    # For previous data, we'll use the same data (momentum will be zero)
+    # In production, you'd load from previous epoch snapshot
+    print("\n📦 Using current data for previous (momentum will be zero)")
     previous = {
-        "arena": mock["prev_elo"].rename(columns={"elo": "elo"}),
-        "mmlu": mock["prev_mmlu"].rename(columns={"mmlu": "mmlu"}),
-        "gsm8k": mock["prev_gsm8k"].rename(columns={"gsm8k": "gsm8k"}),
-        "humaneval": mock["prev_humaneval"].rename(columns={"humaneval": "humaneval"}),
-        # For benchmark delta, we need a composite previous benchmark score
-        # We'll compute it later from these.
-        "downloads": mock["prev_downloads"].rename(columns={"downloads": "downloads"}),
-        "citations": mock["prev_citations"].rename(columns={"citation_velocity": "citation_velocity"}),
+        "arena": arena_df.copy(),
+        "benchmarks": benchmarks_df.copy(),
+        "downloads": downloads_df.copy(),
+        "citations": citations_df.copy(),
     }
+    
     return current, previous
 
 def merge_dataframes(registry, current, previous):
@@ -183,7 +201,7 @@ def normalize_all(df):
     # DEBUG: Print available normalized columns
     norm_cols = [col for col in df.columns if '_norm' in col]
     print("Available normalized columns:", norm_cols)   
-    
+
 def main():
     print("🚀 AIGI Index Engine - Layer 1")
     print(f"Epoch: {EPOCH_ID}")
