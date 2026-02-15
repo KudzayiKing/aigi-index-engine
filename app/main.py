@@ -9,13 +9,6 @@ import sys
 import json
 import pandas as pd
 from datetime import datetime
-from app.data_sources import (
-    fetch_arena_scores,
-    fetch_hf_downloads,
-    fetch_github_stats,
-    fetch_citations,
-)
-from app.data_sources.benchmarks import fetch_all_benchmarks
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,6 +21,7 @@ from app.data_sources import (
     fetch_arena_scores, fetch_hf_downloads, fetch_github_stats,
     fetch_citations, get_mock_all_data
 )
+from app.data_sources.benchmarks import fetch_all_benchmarks
 from app.scoring.normalization import normalize
 from app.scoring.intelligence import compute_intelligence_score
 from app.scoring.adoption import compute_adoption_score
@@ -193,14 +187,7 @@ def normalize_all(df):
     for col in metric_cols:
         if col in df.columns:
             df[f"{col}_norm"] = normalize(df[col])
-    return df
-    # Normalize all metrics
-    df = normalize_all(df)
-    print("Normalization complete.")
-    
-    # DEBUG: Print available normalized columns
-    norm_cols = [col for col in df.columns if '_norm' in col]
-    print("Available normalized columns:", norm_cols)   
+    return df   
 
 def main():
     print("🚀 AIGI Index Engine - Layer 1")

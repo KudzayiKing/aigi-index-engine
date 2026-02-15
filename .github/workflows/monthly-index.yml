@@ -67,12 +67,7 @@ jobs:
       - name: Create Summary
         run: |
           SNAPSHOT_FILE=$(ls epochs/*.json | head -n 1)
-          CIS=$(python -c "
-import json
-with open('$SNAPSHOT_FILE') as f:
-    data = json.load(f)
-    print(data.get('cis', 'N/A'))
-          ")
+          CIS=$(python -c "import json; data = json.load(open('$SNAPSHOT_FILE')); print(data.get('cis', 'N/A'))")
           echo "## 📊 AIGI Index Monthly Update" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
