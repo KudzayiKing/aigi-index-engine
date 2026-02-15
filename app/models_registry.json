@@ -1,0 +1,42 @@
+[
+  {
+    "name": "gpt-4",
+    "tier": "A",
+    "arena_id": "gpt-4",
+    "hf_repo": null,
+    "github_repo": "openai/gpt-4",
+    "paper_id": "arxiv:2303.08774"
+  },
+  {
+    "name": "claude-3-opus",
+    "tier": "A",
+    "arena_id": "claude-3-opus",
+    "hf_repo": null,
+    "github_repo": "anthropics/claude-3",
+    "paper_id": null
+  },
+  {
+    "name": "llama-3-70b",
+    "tier": "B",
+    "arena_id": "llama-3-70b",
+    "hf_repo": "meta-llama/Meta-Llama-3-70B",
+    "github_repo": "meta-llama/llama3",
+    "paper_id": "arxiv:2407.21783"
+  },
+  {
+    "name": "mistral-large",
+    "tier": "B",
+    "arena_id": "mistral-large",
+    "hf_repo": "mistralai/Mistral-Large",
+    "github_repo": "mistralai/mistral-large",
+    "paper_id": null
+  },
+  {
+    "name": "gemini-1.5-pro",
+    "tier": "A",
+    "arena_id": "gemini-1.5-pro",
+    "hf_repo": null,
+    "github_repo": null,
+    "paper_id": "arxiv:2403.05530"
+  }
+]

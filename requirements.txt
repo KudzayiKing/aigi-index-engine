@@ -1,0 +1,8 @@
+pandas==2.2.3
+numpy==1.26.4
+requests==2.31.0
+python-dotenv==1.0.0
+scikit-learn==1.6.1
+ipfshttpclient==0.8.0a2
+fastapi==0.115.8
+uvicorn==0.34.0

@@ -1,0 +1,48 @@
+{
+  "epoch_id": "2026-04",
+  "timestamp": "2026-02-15T18:23:31.424712Z",
+  "cis": 38.2634238851296,
+  "models": [
+    {
+      "name": "gpt-4",
+      "tier": "A",
+      "intelligence_score": 90.5,
+      "adoption_score": 22.202522115565593,
+      "momentum_score": 31.3097826086936,
+      "model_score": 58.1727131564084
+    },
+    {
+      "name": "claude-3-opus",
+      "tier": "A",
+      "intelligence_score": 90.11027955095751,
+      "adoption_score": 8.434343434343434,
+      "momentum_score": 25.87499999999795,
+      "model_score": 52.76044280578138
+    },
+    {
+      "name": "llama-3-70b",
+      "tier": "B",
+      "intelligence_score": 25.57957296940345,
+      "adoption_score": 100.0,
+      "momentum_score": 45.99999999999693,
+      "model_score": 51.989786484701106
+    },
+    {
+      "name": "mistral-large",
+      "tier": "B",
+      "intelligence_score": 0.0,
+      "adoption_score": 35.476190476190474,
+      "momentum_score": 44.130434782608695,
+      "model_score": 19.46894409937888
+    },
+    {
+      "name": "gemini-1.5-pro",
+      "tier": "A",
+      "intelligence_score": 70.94232885758309,
+      "adoption_score": 19.050693268084572,
+      "momentum_score": 12.146739130434796,
+      "model_score": 43.615720235303876
+    }
+  ],
+  "engine_version": "1.0.0"
+}
