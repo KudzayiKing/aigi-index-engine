@@ -30,10 +30,7 @@ def fetch_github_stats():
             stats = fetch_repo_stats(github_repo, headers)
             data.append({
                 'model': model['name'],
-                'github_growth': stats['growth_score'],
-                'stars': stats['stars'],
-                'forks': stats['forks'],
-                'commits_30d': stats['commits_30d']
+                'github': stats['growth_score']
             })
             time.sleep(1)  # Rate limiting
     

@@ -47,7 +47,7 @@ def fetch_all_data():
     arena_df = fetch_arena_scores()
     
     print("\n📚 Fetching benchmark data (MMLU, GSM8K, HumanEval)...")
-    benchmarks_df = fetch_all_benchmarks()
+    benchmarks = fetch_all_benchmarks()
     
     print("\n🤗 Fetching Hugging Face downloads...")
     downloads_df = fetch_hf_downloads()
@@ -60,7 +60,9 @@ def fetch_all_data():
     
     current = {
         "arena": arena_df,
-        "benchmarks": benchmarks_df,
+        "mmlu": benchmarks['mmlu'],
+        "gsm8k": benchmarks['gsm8k'],
+        "humaneval": benchmarks['humaneval'],
         "downloads": downloads_df,
         "github": github_df,
         "citations": citations_df,
@@ -71,7 +73,9 @@ def fetch_all_data():
     print("\n📦 Using current data for previous (momentum will be zero)")
     previous = {
         "arena": arena_df.copy(),
-        "benchmarks": benchmarks_df.copy(),
+        "mmlu": benchmarks['mmlu'].copy(),
+        "gsm8k": benchmarks['gsm8k'].copy(),
+        "humaneval": benchmarks['humaneval'].copy(),
         "downloads": downloads_df.copy(),
         "citations": citations_df.copy(),
     }

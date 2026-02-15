@@ -9,47 +9,17 @@ from ..config import RATE_LIMIT
 def fetch_all_benchmarks():
     """
     Fetch real benchmark data from various sources.
-    Combines MMLU, GSM8K, HumanEval, etc.
+    Returns separate dataframes for MMLU, GSM8K, and HumanEval.
     """
-    # Fetch from different sources
     mmlu_df = fetch_mmlu_scores()
     gsm8k_df = fetch_gsm8k_scores()
     humaneval_df = fetch_humaneval_scores()
     
-    # Merge all benchmarks
-    models = set()
-    models.update(mmlu_df['model'].tolist())
-    models.update(gsm8k_df['model'].tolist())
-    models.update(humaneval_df['model'].tolist())
-    
-    data = []
-    for model in models:
-        row = {'model': model}
-        
-        # Add MMLU score if available
-        mmlu_row = mmlu_df[mmlu_df['model'] == model]
-        if not mmlu_row.empty:
-            row['mmlu'] = mmlu_row.iloc[0]['mmlu']
-        else:
-            row['mmlu'] = None
-        
-        # Add GSM8K score if available
-        gsm8k_row = gsm8k_df[gsm8k_df['model'] == model]
-        if not gsm8k_row.empty:
-            row['gsm8k'] = gsm8k_row.iloc[0]['gsm8k']
-        else:
-            row['gsm8k'] = None
-        
-        # Add HumanEval score if available
-        humaneval_row = humaneval_df[humaneval_df['model'] == model]
-        if not humaneval_row.empty:
-            row['humaneval'] = humaneval_row.iloc[0]['humaneval']
-        else:
-            row['humaneval'] = None
-        
-        data.append(row)
-    
-    return pd.DataFrame(data)
+    return {
+        'mmlu': mmlu_df,
+        'gsm8k': gsm8k_df,
+        'humaneval': humaneval_df
+    }
 
 def fetch_mmlu_scores():
     """
