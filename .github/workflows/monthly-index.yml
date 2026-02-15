@@ -1,0 +1,102 @@
+name: Monthly AIGI Index Update
+
+on:
+  schedule:
+    # Run at 00:00 UTC on the 1st day of every month
+    - cron: '0 0 1 * *'
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  calculate-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Create cache directory
+        run: mkdir -p cache epochs
+      
+      - name: Run AIGI Index Engine
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
+          HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
+          EPOCH_ID: ${{ github.ref_name }}-${{ github.run_id }}
+        run: |
+          python -m app.main
+      
+      - name: Upload Snapshot to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aigi-snapshot
+          path: epochs/
+          retention-days: 90
+      
+      - name: Upload to IPFS (Optional)
+        continue-on-error: true
+        run: |
+          # Install IPFS
+          wget https://dist.ipfs.tech/kubo/v0.27.0/kubo_v0.27.0_linux-amd64.tar.gz
+          tar -xvzf kubo_v0.27.0_linux-amd64.tar.gz
+          cd kubo
+          sudo bash install.sh
+          cd ..
+          
+          # Initialize IPFS
+          ipfs init
+          
+          # Add snapshot to IPFS
+          SNAPSHOT_FILE=$(ls epochs/*.json | head -n 1)
+          IPFS_HASH=$(ipfs add -Q "$SNAPSHOT_FILE")
+          echo "IPFS Hash: $IPFS_HASH"
+          echo "IPFS_HASH=$IPFS_HASH" >> $GITHUB_ENV
+      
+      - name: Create Summary
+        run: |
+          SNAPSHOT_FILE=$(ls epochs/*.json | head -n 1)
+          CIS=$(python -c "
+import json
+with open('$SNAPSHOT_FILE') as f:
+    data = json.load(f)
+    print(data.get('cis', 'N/A'))
+          ")
+          echo "## 📊 AIGI Index Monthly Update" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Date** | $(date +'%Y-%m-%d') |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Composite Intelligence Score (CIS)** | **$CIS** |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Models Tracked** | 30 |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Snapshot** | [$SNAPSHOT_FILE]($SNAPSHOT_FILE) |" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -n "$IPFS_HASH" ]; then
+            echo "| **IPFS CID** | \`$IPFS_HASH\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| **IPFS Gateway** | https://ipfs.io/ipfs/$IPFS_HASH |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Monthly update complete!**" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Commit and Push Snapshot (Optional)
+        continue-on-error: true
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Add the new snapshot
+          git add epochs/
+          git commit -m "Monthly AIGI index update - $(date +'%Y-%m-%d')"
+          git push
