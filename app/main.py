@@ -80,11 +80,10 @@ def fetch_all_data():
 
 def merge_dataframes(registry, current, previous):
     """
-    Debug version to see what columns are being created.
+    Merge registry with current and previous metrics.
     """
     df = pd.DataFrame(registry)
-    print("Step 0 - Registry columns:", df.columns.tolist())
-    print("Step 0 - Registry data:\n", df)
+    print(f"Loaded {len(df)} models from registry")
     
     # Merge current metrics one by one
     metrics = ["arena", "mmlu", "gsm8k", "humaneval", "multimodal", "robustness",
@@ -92,9 +91,7 @@ def merge_dataframes(registry, current, previous):
     
     for metric in metrics:
         if metric in current:
-            curr_df = current[metric]
-            print(f"\nStep 1 - Merging {metric}")
-            print(f"Current {metric} df:\n", curr_df)
+            curr_df = current[metric].copy()
             
             # Rename the value column to the metric name
             value_cols = [col for col in curr_df.columns if col != 'model']
@@ -102,14 +99,10 @@ def merge_dataframes(registry, current, previous):
                 curr_df = curr_df.rename(columns={value_cols[0]: metric})
             
             df = df.merge(curr_df, left_on="name", right_on="model", how="left")
-            print(f"After merge, columns: {df.columns.tolist()}")
             
             # Drop duplicate model column if it exists
             if 'model' in df.columns:
                 df = df.drop(columns=['model'])
-                print(f"Dropped 'model' column, now: {df.columns.tolist()}")
-    
-    print("\nStep 2 - After all current merges, columns:", df.columns.tolist())
     
     # For previous values
     prev_metrics = {
@@ -123,9 +116,7 @@ def merge_dataframes(registry, current, previous):
     
     for metric, colname in prev_metrics.items():
         if metric in previous:
-            prev_df = previous[metric]
-            print(f"\nStep 3 - Merging previous {metric}")
-            print(f"Previous {metric} df:\n", prev_df)
+            prev_df = previous[metric].copy()
             
             # Rename the value column to prev_{metric}
             value_cols = [col for col in prev_df.columns if col != 'model']
@@ -133,50 +124,31 @@ def merge_dataframes(registry, current, previous):
                 prev_df = prev_df.rename(columns={value_cols[0]: f"prev_{metric}"})
             
             df = df.merge(prev_df, left_on="name", right_on="model", how="left")
-            print(f"After prev merge, columns: {df.columns.tolist()}")
             
             if 'model' in df.columns:
                 df = df.drop(columns=['model'])
-                print(f"Dropped 'model' column, now: {df.columns.tolist()}")
     
-    print("\nStep 4 - Final columns before delta computation:", df.columns.tolist())
-    print("Step 4 - Data types:\n", df.dtypes)
-    
-    # Now compute deltas (check if columns exist first)
+    # Compute deltas
     if 'arena' in df.columns and 'prev_arena' in df.columns:
         df["elo_delta"] = df["arena"] - df["prev_arena"]
-        print("✓ Created elo_delta")
-    else:
-        print("✗ Missing 'arena' or 'prev_arena' columns")
-        if 'arena' not in df.columns:
-            print("  - 'arena' column missing")
-        if 'prev_arena' not in df.columns:
-            print("  - 'prev_arena' column missing")
     
     # Compute benchmark and its delta
     if all(col in df.columns for col in ['mmlu', 'gsm8k', 'humaneval']):
         df["benchmark"] = (df["mmlu"] + df["gsm8k"] + df["humaneval"]) / 3
-        print("✓ Created benchmark")
-    else:
-        print("✗ Missing benchmark component columns")
     
     if all(col in df.columns for col in ['prev_mmlu', 'prev_gsm8k', 'prev_humaneval']):
         df["prev_benchmark"] = (df["prev_mmlu"] + df["prev_gsm8k"] + df["prev_humaneval"]) / 3
-        print("✓ Created prev_benchmark")
     
     if 'benchmark' in df.columns and 'prev_benchmark' in df.columns:
         df["benchmark_delta"] = df["benchmark"] - df["prev_benchmark"]
-        print("✓ Created benchmark_delta")
     
     if 'downloads' in df.columns and 'prev_downloads' in df.columns:
         df["download_growth"] = df["downloads"] - df["prev_downloads"]
-        print("✓ Created download_growth")
     
     if 'citations' in df.columns and 'prev_citations' in df.columns:
         df["citation_growth"] = df["citations"] - df["prev_citations"]
-        print("✓ Created citation_growth")
     
-    print("\nStep 5 - Final dataframe shape:", df.shape)
+    print(f"Merged data: {df.shape[0]} rows, {df.shape[1]} columns")
     return df
 
 def normalize_all(df):
