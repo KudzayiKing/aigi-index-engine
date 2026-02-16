@@ -1,0 +1,248 @@
+{
+  "epoch_id": "main-22049955551",
+  "timestamp": "2026-02-16T04:21:30.323029Z",
+  "cis": 3.0112289272035073,
+  "models": [
+    {
+      "name": "gpt-4",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 20.00172193603008,
+      "momentum_score": NaN,
+      "model_score": 6.000516580809024
+    },
+    {
+      "name": "gpt-4-turbo",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 0.0017219360300764828,
+      "momentum_score": NaN,
+      "model_score": 0.0005165808090229449
+    },
+    {
+      "name": "gpt-3.5-turbo",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 0.003910229734965347,
+      "momentum_score": NaN,
+      "model_score": 0.001173068920489604
+    },
+    {
+      "name": "claude-3-opus",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": NaN,
+      "momentum_score": NaN,
+      "model_score": 0.0
+    },
+    {
+      "name": "claude-3-sonnet",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": NaN,
+      "momentum_score": NaN,
+      "model_score": 0.0
+    },
+    {
+      "name": "claude-3-haiku",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": NaN,
+      "momentum_score": NaN,
+      "model_score": 0.0
+    },
+    {
+      "name": "llama-3-70b",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 9.388551626632852,
+      "momentum_score": NaN,
+      "model_score": 2.8165654879898554
+    },
+    {
+      "name": "llama-3-8b",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 57.09764393039685,
+      "momentum_score": NaN,
+      "model_score": 17.129293179119053
+    },
+    {
+      "name": "llama-2-70b",
+      "tier": "C",
+      "intelligence_score": NaN,
+      "adoption_score": 11.877632687127122,
+      "momentum_score": NaN,
+      "model_score": 3.5632898061381364
+    },
+    {
+      "name": "mistral-7b",
+      "tier": "C",
+      "intelligence_score": NaN,
+      "adoption_score": 27.27065122604283,
+      "momentum_score": NaN,
+      "model_score": 8.18119536781285
+    },
+    {
+      "name": "mixtral-8x7b",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 14.768306549547184,
+      "momentum_score": NaN,
+      "model_score": 4.430491964864155
+    },
+    {
+      "name": "mistral-large",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 2.137290832054361,
+      "momentum_score": NaN,
+      "model_score": 0.6411872496163084
+    },
+    {
+      "name": "codestral-22b",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 0.18373461939688376,
+      "momentum_score": NaN,
+      "model_score": 0.05512038581906513
+    },
+    {
+      "name": "kimi-k2",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 1.9446397566330413,
+      "momentum_score": NaN,
+      "model_score": 0.5833919269899124
+    },
+    {
+      "name": "kimi-dev-72b",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 0.2610143548106504,
+      "momentum_score": NaN,
+      "model_score": 0.07830430644319511
+    },
+    {
+      "name": "kimi-k2-thinking",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 0.0017219360300764828,
+      "momentum_score": NaN,
+      "model_score": 0.0005165808090229449
+    },
+    {
+      "name": "minimax-01",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 0.7314581171706593,
+      "momentum_score": NaN,
+      "model_score": 0.2194374351511978
+    },
+    {
+      "name": "minimax-m1",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 0.8071832447720837,
+      "momentum_score": NaN,
+      "model_score": 0.2421549734316251
+    },
+    {
+      "name": "minimax-m2",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 10.444563364316451,
+      "momentum_score": NaN,
+      "model_score": 3.133369009294935
+    },
+    {
+      "name": "minimax-m2.1",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 1.9918822601289858,
+      "momentum_score": NaN,
+      "model_score": 0.5975646780386957
+    },
+    {
+      "name": "glm-4.5v",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 1.2462019017071064,
+      "momentum_score": NaN,
+      "model_score": 0.3738605705121319
+    },
+    {
+      "name": "glm-4.1v-9b",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 5.937204278984509,
+      "momentum_score": NaN,
+      "model_score": 1.7811612836953525
+    },
+    {
+      "name": "glm-4.5-air",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": NaN,
+      "momentum_score": NaN,
+      "model_score": 0.0
+    },
+    {
+      "name": "gemini-1.5-pro",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 2.918765642333859,
+      "momentum_score": NaN,
+      "model_score": 0.8756296927001577
+    },
+    {
+      "name": "gemini-1.5-flash",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 2.918765642333859,
+      "momentum_score": NaN,
+      "model_score": 0.8756296927001577
+    },
+    {
+      "name": "qwen-1.5-72b",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 5.14446524137999,
+      "momentum_score": NaN,
+      "model_score": 1.5433395724139969
+    },
+    {
+      "name": "qwen-2.5-72b",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 11.921202216817221,
+      "momentum_score": NaN,
+      "model_score": 3.5763606650451663
+    },
+    {
+      "name": "deepseek-v3",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 47.305272137163875,
+      "momentum_score": NaN,
+      "model_score": 14.191581641149162
+    },
+    {
+      "name": "deepseek-r1",
+      "tier": "A",
+      "intelligence_score": NaN,
+      "adoption_score": 34.346119518960435,
+      "momentum_score": NaN,
+      "model_score": 10.30383585568813
+    },
+    {
+      "name": "yi-34b",
+      "tier": "B",
+      "intelligence_score": NaN,
+      "adoption_score": 2.37142757374777,
+      "momentum_score": NaN,
+      "model_score": 0.7114282721243309
+    }
+  ],
+  "engine_version": "1.0.0"
+}
