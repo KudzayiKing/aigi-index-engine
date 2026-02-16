@@ -36,7 +36,8 @@ jobs:
           HUGGINGFACE_TOKEN: ${{ secrets.HUGGINGFACE_TOKEN }}
           EPOCH_ID: ${{ github.ref_name }}-${{ github.run_id }}
         run: |
-          python -m app.main
+          python -m app.main 2>&1 | tee output.log
+          exit ${PIPESTATUS[0]}
       
       - name: Upload Snapshot to Artifacts
         uses: actions/upload-artifact@v4
