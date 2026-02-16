@@ -89,6 +89,16 @@ def merge_dataframes(registry, current, previous):
     df = pd.DataFrame(registry)
     print(f"Loaded {len(df)} models from registry")
     
+    # Check registry for dict/list values
+    for col in df.columns:
+        if len(df) > 0:
+            sample_val = df[col].iloc[0]
+            if isinstance(sample_val, (dict, list)):
+                print(f"  ERROR: Registry column '{col}' contains {type(sample_val).__name__} values!")
+                print(f"  Sample: {sample_val}")
+                # Convert to string or None
+                df[col] = df[col].apply(lambda x: str(x) if isinstance(x, (dict, list)) else x)
+    
     # Merge current metrics one by one
     metrics = ["arena", "mmlu", "gsm8k", "humaneval", "multimodal", "robustness",
                "downloads", "github", "citations", "release"]
@@ -102,10 +112,15 @@ def merge_dataframes(registry, current, previous):
             
             # Check for dict/list values in any column
             for col in curr_df.columns:
-                sample_val = curr_df[col].iloc[0] if len(curr_df) > 0 else None
-                if isinstance(sample_val, (dict, list)):
-                    print(f"    WARNING: Column '{col}' contains {type(sample_val).__name__} values!")
-                    print(f"    Sample: {sample_val}")
+                if len(curr_df) > 0:
+                    sample_val = curr_df[col].iloc[0]
+                    if isinstance(sample_val, (dict, list)):
+                        print(f"    WARNING: Column '{col}' contains {type(sample_val).__name__} values!")
+                        print(f"    Sample: {sample_val}")
+                        # Convert to None
+                        curr_df[col] = curr_df[col].apply(
+                            lambda x: None if isinstance(x, (dict, list)) else x
+                        )
             
             # Ensure we only have model and value columns
             if len(curr_df.columns) > 2:
