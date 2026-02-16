@@ -96,6 +96,6 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           # Add the new snapshot
-          git add epochs/
+          git add -f epochs/
           git commit -m "Monthly AIGI index update - $(date +'%Y-%m-%d')"
           git push
