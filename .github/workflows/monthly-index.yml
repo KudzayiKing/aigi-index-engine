@@ -28,11 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Clean and Recreate epochs directory
-        run: |
-          rm -rf epochs/
-          mkdir epochs
-
+      - name: Create cache directory
+        run: mkdir -p cache
       
       - name: Run AIGI Index Engine
         env:
@@ -44,12 +41,23 @@ jobs:
           python -m app.main 2>&1 | tee output.log
           exit ${PIPESTATUS[0]}
       
+      - name: Verify snapshot was created
+        run: |
+          if [ ! -d "epochs" ] || [ -z "$(ls -A epochs/*.json 2>/dev/null)" ]; then
+            echo "ERROR: No snapshot files found in epochs/"
+            exit 1
+          fi
+          echo "Found snapshot files:"
+          ls -lh epochs/
+      
       - name: Upload Snapshot to Artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: aigi-snapshot
-          path: epochs/
+          name: aigi-snapshot-${{ github.run_id }}
+          path: epochs/*.json
           retention-days: 90
+          if-no-files-found: error
       
       - name: Upload to IPFS (Optional)
         continue-on-error: true
@@ -71,17 +79,25 @@ jobs:
           echo "IPFS_HASH=$IPFS_HASH" >> $GITHUB_ENV
       
       - name: Create Summary
+        if: success()
         run: |
           SNAPSHOT_FILE=$(ls epochs/*.json | head -n 1)
+          if [ -z "$SNAPSHOT_FILE" ]; then
+            echo "ERROR: No snapshot file found"
+            exit 1
+          fi
+          
           CIS=$(python -c "import json; data = json.load(open('$SNAPSHOT_FILE')); print(data.get('cis', 'N/A'))")
+          MODELS=$(python -c "import json; data = json.load(open('$SNAPSHOT_FILE')); print(len(data.get('models', [])))")
+          
           echo "## 📊 AIGI Index Monthly Update" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| **Date** | $(date +'%Y-%m-%d') |" >> $GITHUB_STEP_SUMMARY
           echo "| **Composite Intelligence Score (CIS)** | **$CIS** |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Models Tracked** | 30 |" >> $GITHUB_STEP_SUMMARY
-          echo "| **Snapshot** | [$SNAPSHOT_FILE]($SNAPSHOT_FILE) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Models Tracked** | $MODELS |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Snapshot File** | \`$(basename $SNAPSHOT_FILE)\` |" >> $GITHUB_STEP_SUMMARY
           
           if [ -n "$IPFS_HASH" ]; then
             echo "| **IPFS CID** | \`$IPFS_HASH\` |" >> $GITHUB_STEP_SUMMARY
