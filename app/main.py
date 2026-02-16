@@ -97,6 +97,16 @@ def merge_dataframes(registry, current, previous):
         if metric in current:
             curr_df = current[metric].copy()
             
+            # Debug: Check dataframe structure
+            print(f"  Merging {metric}: {len(curr_df)} rows, columns: {curr_df.columns.tolist()}")
+            
+            # Check for dict/list values in any column
+            for col in curr_df.columns:
+                sample_val = curr_df[col].iloc[0] if len(curr_df) > 0 else None
+                if isinstance(sample_val, (dict, list)):
+                    print(f"    WARNING: Column '{col}' contains {type(sample_val).__name__} values!")
+                    print(f"    Sample: {sample_val}")
+            
             # Ensure we only have model and value columns
             if len(curr_df.columns) > 2:
                 print(f"  Warning: {metric} has {len(curr_df.columns)} columns, expected 2")
