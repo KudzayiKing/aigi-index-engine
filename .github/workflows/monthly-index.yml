@@ -113,7 +113,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Add the new snapshot
+          # Copy latest snapshot to a fixed filename for easy oracle access
+          LATEST_SNAPSHOT=$(ls -t epochs/*.json | head -n 1)
+          cp "$LATEST_SNAPSHOT" epochs/latest.json
+          
+          # Add the new snapshot and latest.json
           git add -f epochs/
           git commit -m "Monthly AIGI index update - $(date +'%Y-%m-%d')"
           git push
