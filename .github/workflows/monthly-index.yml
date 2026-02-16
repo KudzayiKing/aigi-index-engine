@@ -29,6 +29,9 @@ jobs:
       - name: Create cache directory
         run: mkdir -p cache epochs
       
+      - name: Clean epochs directory
+        run: rm -f epochs/*
+      
       - name: Run AIGI Index Engine
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
