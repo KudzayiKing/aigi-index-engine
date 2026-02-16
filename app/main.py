@@ -192,58 +192,65 @@ def main():
     print("🚀 AIGI Index Engine - Layer 1")
     print(f"Epoch: {EPOCH_ID}")
 
-    # Load model registry
-    registry = load_model_registry()
-    print(f"Loaded {len(registry)} models.")
+    try:
+        # Load model registry
+        registry = load_model_registry()
+        print(f"Loaded {len(registry)} models.")
 
-    # Fetch data (mock)
-    current, previous = fetch_all_data()
+        # Fetch data (mock)
+        current, previous = fetch_all_data()
 
-    # Merge into one dataframe
-    df = merge_dataframes(registry, current, previous)
-    print("Data merged.")
+        # Merge into one dataframe
+        df = merge_dataframes(registry, current, previous)
+        print("Data merged.")
 
-    # Normalize all metrics
-    df = normalize_all(df)
-    print("Normalization complete.")
+        # Normalize all metrics
+        df = normalize_all(df)
+        print("Normalization complete.")
 
-    # Compute intelligence score per model
-    df["intelligence_score"] = compute_intelligence_score(df)
-    # Compute adoption score
-    df["adoption_score"] = compute_adoption_score(df)
-    # Compute momentum score
-    df["momentum_score"] = compute_momentum_score(df)
+        # Compute intelligence score per model
+        df["intelligence_score"] = compute_intelligence_score(df)
+        # Compute adoption score
+        df["adoption_score"] = compute_adoption_score(df)
+        # Compute momentum score
+        df["momentum_score"] = compute_momentum_score(df)
 
-    # Compute final model score (weighted combination)
-    df["model_score"] = df.apply(compute_model_score, axis=1)
+        # Compute final model score (weighted combination)
+        df["model_score"] = df.apply(compute_model_score, axis=1)
 
-    # Compute CIS
-    cis = compute_cis(df)
-    print(f"\n📊 Composite Intelligence Score (CIS): {cis:.4f}")
+        # Compute CIS
+        cis = compute_cis(df)
+        print(f"\n📊 Composite Intelligence Score (CIS): {cis:.4f}")
 
-    # Prepare output snapshot
-    timestamp = SNAPSHOT_TIMESTAMP or datetime.utcnow().isoformat() + "Z"
-    snapshot = {
-        "epoch_id": EPOCH_ID,
-        "timestamp": timestamp,
-        "cis": cis,
-        "models": df[["name", "tier", "intelligence_score", "adoption_score",
-                      "momentum_score", "model_score"]].to_dict(orient="records"),
-        "engine_version": "1.0.0",
-    }
+        # Prepare output snapshot
+        timestamp = SNAPSHOT_TIMESTAMP or datetime.utcnow().isoformat() + "Z"
+        snapshot = {
+            "epoch_id": EPOCH_ID,
+            "timestamp": timestamp,
+            "cis": cis,
+            "models": df[["name", "tier", "intelligence_score", "adoption_score",
+                          "momentum_score", "model_score"]].to_dict(orient="records"),
+            "engine_version": "1.0.0",
+        }
 
-    # Save to file
-    filepath = save_snapshot(snapshot, EPOCH_ID, timestamp)
+        # Save to file
+        filepath = save_snapshot(snapshot, EPOCH_ID, timestamp)
 
-    # Hash the snapshot
-    snapshot_hash = hash_dataset(snapshot)
-    print(f"Snapshot SHA256: {snapshot_hash}")
+        # Hash the snapshot
+        snapshot_hash = hash_dataset(snapshot)
+        print(f"Snapshot SHA256: {snapshot_hash}")
 
-    # Upload to IPFS (optional)
-    ipfs_hash = upload_to_ipfs(filepath)
-    print(f"IPFS CID: {ipfs_hash}")
+        # Upload to IPFS (optional)
+        ipfs_hash = upload_to_ipfs(filepath)
+        print(f"IPFS CID: {ipfs_hash}")
 
-    print("\n✅ Epoch complete.")
+        print("\n✅ Epoch complete.")
+        
+    except Exception as e:
+        print(f"\n❌ ERROR: {type(e).__name__}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise
 
 if __name__ == "__main__":
     main()
