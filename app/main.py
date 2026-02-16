@@ -89,15 +89,19 @@ def merge_dataframes(registry, current, previous):
     df = pd.DataFrame(registry)
     print(f"Loaded {len(df)} models from registry")
     
-    # Check registry for dict/list values
+    # Check registry for dict/list values - check all rows
     for col in df.columns:
-        if len(df) > 0:
-            sample_val = df[col].iloc[0]
-            if isinstance(sample_val, (dict, list)):
-                print(f"  ERROR: Registry column '{col}' contains {type(sample_val).__name__} values!")
-                print(f"  Sample: {sample_val}")
-                # Convert to string or None
+        if df[col].dtype == 'object':
+            # Check for any dict/list values
+            mask = df[col].apply(lambda x: isinstance(x, (dict, list)))
+            if mask.any():
+                print(f"  WARNING: Registry column '{col}' contains dict/list values! Converting to string.")
+                # Convert to string
                 df[col] = df[col].apply(lambda x: str(x) if isinstance(x, (dict, list)) else x)
+    
+    # Ensure name is string for merging
+    if 'name' in df.columns:
+        df['name'] = df['name'].astype(str)
     
     # Merge current metrics one by one
     metrics = ["arena", "mmlu", "gsm8k", "humaneval", "multimodal", "robustness",
@@ -112,15 +116,18 @@ def merge_dataframes(registry, current, previous):
             
             # Check for dict/list values in any column
             for col in curr_df.columns:
-                if len(curr_df) > 0:
-                    sample_val = curr_df[col].iloc[0]
-                    if isinstance(sample_val, (dict, list)):
-                        print(f"    WARNING: Column '{col}' contains {type(sample_val).__name__} values!")
-                        print(f"    Sample: {sample_val}")
+                if curr_df[col].dtype == 'object':
+                    mask = curr_df[col].apply(lambda x: isinstance(x, (dict, list)))
+                    if mask.any():
+                        print(f"    WARNING: Column '{col}' contains dict/list values! Cleaning.")
                         # Convert to None
                         curr_df[col] = curr_df[col].apply(
                             lambda x: None if isinstance(x, (dict, list)) else x
                         )
+            
+            # Ensure model is string for merging
+            if 'model' in curr_df.columns:
+                curr_df['model'] = curr_df['model'].astype(str)
             
             # Ensure we only have model and value columns
             if len(curr_df.columns) > 2:
@@ -167,6 +174,10 @@ def merge_dataframes(registry, current, previous):
                 prev_df = prev_df.rename(columns={value_cols[0]: f"prev_{metric}"})
             elif len(value_cols) > 1:
                 prev_df = prev_df[['model', value_cols[0]]].rename(columns={value_cols[0]: f"prev_{metric}"})
+            
+            # Ensure model is string for merging
+            if 'model' in prev_df.columns:
+                prev_df['model'] = prev_df['model'].astype(str)
             
             # Ensure scalar values only
             prev_col = f"prev_{metric}"
