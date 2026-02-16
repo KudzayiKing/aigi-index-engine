@@ -26,11 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Create cache directory
-        run: mkdir -p cache epochs
-      
-      - name: Clean epochs directory
-        run: rm -f epochs/*
+      - name: Clean and Recreate epochs directory
+        run: |
+          rm -rf epochs/
+          mkdir epochs
+
       
       - name: Run AIGI Index Engine
         env:
